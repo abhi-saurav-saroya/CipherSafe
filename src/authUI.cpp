@@ -1,6 +1,6 @@
 #include "authUI.h"
 #include "authManager.h"
-#include "utils.h"
+#include "general_utils.h"
 
 #include <iostream>
 #include <limits>
@@ -87,7 +87,13 @@ void AuthUI::newMasterSignUp() {
         break;
     }
 
-    authManager.createMaster(toLower(master_username), master_key);
+    if(authManager.createMaster(toLower(master_username), master_key)) {
+        std::cout << "New Master <" << master_username << "> created." << std::endl;
+        std::cout << "Sign In now to get the access to dashboard." << std::endl;
+        return;
+    }
+
+    std::cout << "Error creating new user. Returning to home page." << std::endl;
 }
 
 void AuthUI::oldMasterSignIn(){
@@ -114,4 +120,6 @@ void AuthUI::oldMasterSignIn(){
             break;
         }
     }
+
+    std::cout << "Signed In successfully." << std::endl;
 }

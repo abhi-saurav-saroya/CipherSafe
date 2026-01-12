@@ -1,6 +1,5 @@
 #include "authUI.h"
 #include "authManager.h"
-#include "utils.h"
 
 #include <iostream>
 using namespace std;
