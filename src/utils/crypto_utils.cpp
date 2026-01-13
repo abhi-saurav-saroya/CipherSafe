@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <random>
 
-std::string sha256(const std::string& input) {
+std::string fastHash(const std::string& input) {
     std::hash<std::string> hasher;
     size_t hash = hasher(input);
 
@@ -34,7 +34,7 @@ std::string hashPassword( const std::string& password,const std::string& salt,in
     std::string hash = password + salt;
 
     for(int i = 0; i < iterations; ++i) {
-        hash = sha256(hash);
+        hash = fastHash(hash);
     }
 
     return hash;

@@ -6,7 +6,8 @@
 
 struct MasterUser {
     std::string masterUsername;
-    std::string masterKey;
+    std::string salt;
+    std::string hashedMasterKey;
 };
 
 class AuthManager {

@@ -1,5 +1,6 @@
 #include "authManager.h"
 #include "general_utils.h"
+#include "crypto_utils.h"
 
 #include <fstream>
 #include <vector>
@@ -21,15 +22,16 @@ bool AuthManager::createMaster(const std::string& master_username, const std::st
 
     MasterUser m;
     m.masterUsername = master_username;
-    m.masterKey = master_key;
+    m.salt = generateSalt(16);
+    m.hashedMasterKey = hashPassword(master_key, m.salt, PASSWORD_HASH_ITERATIONS);
     Masters.push_back(m);
     return true;
 }
 
 bool AuthManager::authenticateMaster(const std::string& master_username, const std::string& master_key){
     for (const auto& M : Masters) {
-        if (toLower(M.masterUsername) == toLower(master_username) && M.masterKey == master_key)
-            return true;
+        if (toLower(M.masterUsername) == toLower(master_username))
+            return verifyPassword(master_key, M.salt, M.hashedMasterKey, PASSWORD_HASH_ITERATIONS);
     }
     return false;
 }
