@@ -14,6 +14,11 @@ std::string toLower(const std::string& s) {
     return result;
 }
 
+void clearInput() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+
 bool ensureDir(const std::string& path) {
     try {
         if (fs::exists(path))

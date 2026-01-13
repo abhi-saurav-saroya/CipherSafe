@@ -5,5 +5,6 @@
 
 std::string toLower(const std::string& s);
 bool ensureDir(const std::string& s);
+void clearInput();
 
 #endif
