@@ -22,19 +22,18 @@ void AuthUI::authManagerMenu() {
         std::cin >> authManagerMenuChoice;
 
         if(!std::cin || authManagerMenuChoice < 1 || authManagerMenuChoice > 3) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            clearInput();
             std::cout << "Enter a valid option between 1 and 3." << std::endl;
             continue;
         }
 
         switch(authManagerMenuChoice) {
             case 1:
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                clearInput();
                 newMasterSignUp();
                 break;
             case 2:
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                clearInput();
                 oldMasterSignIn();
                 break;
             case 3:
