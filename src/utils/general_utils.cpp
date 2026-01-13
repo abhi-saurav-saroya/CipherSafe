@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cctype>
+#include <iostream>
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -13,10 +14,15 @@ std::string toLower(const std::string& s) {
     return result;
 }
 
-bool ensureDir(const std::string& s) {
+bool ensureDir(const std::string& path) {
     try {
-        return fs::create_directories("data/" + s);
-    } catch (const fs::filesystem_error&) {
+        if (fs::exists(path))
+            return true;
+
+        return fs::create_directories(path);
+    }
+    catch (const fs::filesystem_error& e) {
+        std::cerr << "[FS ERROR] " << e.what() << std::endl;
         return false;
     }
 }

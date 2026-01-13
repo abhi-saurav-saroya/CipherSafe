@@ -12,9 +12,10 @@ AuthUI::AuthUI(AuthManager& manager)
 void AuthUI::authManagerMenu() {
     while(true) {
         std::cout << std::endl;
-        std::cout << "\t1. Sign Up.";
-        std::cout << "\t2. Sign In.";
-        std::cout << "\t3. Exit.";
+        std::cout << "\t1. Sign Up." << std::endl;
+        std::cout << "\t2. Sign In." << std::endl;
+        std::cout << "\t3. Exit." << std::endl;
+        std::cout << "Enter the Choice: ";
 
         int authManagerMenuChoice;
 
@@ -108,7 +109,7 @@ void AuthUI::oldMasterSignIn(){
     }
 
     while(true) {
-        std::cout << "Enter Master Key (8 characters length at minimum or 'quit' to return): ";
+        std::cout << "Enter Master Key (or 'quit' to return): ";
         getline(std::cin, master_key);
     
         if(toLower(master_key) == "quit") {
