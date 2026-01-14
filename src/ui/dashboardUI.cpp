@@ -17,18 +17,16 @@ void DashboardUI::dashboardMenu() {
         std::cout << "\t4. Delete a File." << std::endl;
         std::cout << "\t5. Recover a File." << std::endl;
         std::cout << "\t6. Delete a File Permanently." << std::endl;
-        std::cout << "\t7. Change Master Key." << std::endl;
-        std::cout << "\t8. View Master Profile." << std::endl;
-        std::cout << "\t9. Log Out." << std::endl;
+        std::cout << "\t7. Log Out." << std::endl;
         std::cout << "Enter the Choice: ";
 
         int dashboardChoice;
 
         std::cin >> dashboardChoice;
 
-        if(!std::cin || dashboardChoice < 1 || dashboardChoice > 9) {
+        if(!std::cin || dashboardChoice < 1 || dashboardChoice > 7) {
             clearInput();
-            std::cout << "Enter a valid option between 1 and 9." << std::endl;
+            std::cout << "Enter a valid option between 1 and 7." << std::endl;
             continue;
         }
 
@@ -52,12 +50,6 @@ void DashboardUI::dashboardMenu() {
                 deletePermanent();
                 break;
             case 7:
-                changeMasterKey();
-                break;
-            case 8:
-                viewMasterProfile();
-                break;
-            case 9:
                 std::cout << "Logging out...\n";
                 return;
         }
@@ -147,24 +139,4 @@ void DashboardUI::deletePermanent() {
     } else {
         std::cout << "Cancelled.\n";
     }
-}
-
-void DashboardUI::changeMasterKey() {
-    clearInput();
-
-    std::string oldKey, newKey;
-    std::cout << "Enter current master key: ";
-    std::getline(std::cin, oldKey);
-
-    std::cout << "Enter new master key: ";
-    std::getline(std::cin, newKey);
-
-    if (authManager.changeMasterKey(oldKey, newKey))
-        std::cout << "Master key updated.\n";
-    else
-        std::cout << "Update failed.\n";
-}
-
-void DashboardUI::viewMasterProfile() {
-    authManager.displayMasterProfile();
 }

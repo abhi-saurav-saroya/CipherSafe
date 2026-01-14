@@ -1,18 +1,34 @@
-#include "authUI.h"
 #include "authManager.h"
+#include "authUI.h"
+#include "dashboardUI.h"
+#include "vaultManager.h"
 
 #include <iostream>
-using namespace std;
+#include <string>
 
 int main() {
-    cout << "-------- Welcome to CipherSafe - Secure File Locker --------" << endl << endl;
+    AuthManager authManager;
+    authManager.loadFromFile();
 
-    AuthManager manager;
-    manager.loadFromFile();
+    while (true) {
+        AuthUI authUI(authManager);
 
-    AuthUI ui(manager);
-    ui.authManagerMenu();
+        AuthResult result = authUI.authManagerMenu();
 
-    manager.saveToFile();
+        if (result == AuthResult::EXIT)
+            break;
+
+        // -------- DASHBOARD --------
+        std::string username = authManager.getCurrentMasterUsername();
+        std::string vaultPath = "data/masters/" + username + "/vault";
+
+        VaultManager vaultManager(username, vaultPath);
+        DashboardUI dashboardUI(authManager, vaultManager);
+
+        dashboardUI.dashboardMenu();
+
+        authManager.logout();
+    }
+
     return 0;
 }

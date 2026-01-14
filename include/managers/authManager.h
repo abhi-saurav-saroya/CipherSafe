@@ -11,15 +11,20 @@ struct MasterUser {
 };
 
 class AuthManager {
-private:
-    std::vector<MasterUser> Masters;
-
-public:
-    bool masterExists(const std::string& master_username) const;
-    bool createMaster(const std::string& master_username, const std::string& master_password);
-    bool authenticateMaster(const std::string& master_username, const std::string& master_password);
-    void loadFromFile();
-    void saveToFile();
+    private:
+        std::vector<MasterUser> Masters;
+        std::string currentMasterUsername;
+        bool loggedIn = false;
+    
+    public:
+        bool masterExists(const std::string& master_username) const;
+        bool createMaster(const std::string& master_username, const std::string& master_password);
+        bool authenticateMaster(const std::string& master_username, const std::string& master_password);
+        void loadFromFile();
+        void saveToFile();
+        bool isLoggedIn() const;
+        std::string getCurrentMasterUsername() const;
+        void logout();
 };
 
 

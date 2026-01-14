@@ -3,14 +3,19 @@
 
 class AuthManager;
 
+enum class AuthResult {
+    LOGIN_SUCCESS,
+    EXIT
+};
+
 class AuthUI {
     private:
         AuthManager& authManager;
         void newMasterSignUp();
-        void oldMasterSignIn();
+        bool oldMasterSignIn();
     public:
         explicit AuthUI(AuthManager& manager);
-        void authManagerMenu();
+        AuthResult authManagerMenu();
 };
 
 #endif

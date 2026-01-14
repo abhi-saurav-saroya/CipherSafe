@@ -1,4 +1,5 @@
 #include "authManager.h"
+#include "authUI.h"
 #include "general_utils.h"
 #include "crypto_utils.h"
 #include "json.hpp"
@@ -33,6 +34,9 @@ bool AuthManager::createMaster(const std::string& master_username, const std::st
 bool AuthManager::authenticateMaster(const std::string& master_username, const std::string& master_key){
     for (const auto& M : Masters) {
         if (toLower(M.masterUsername) == toLower(master_username))
+            loggedIn = true;
+            currentMasterUsername = M.masterUsername;
+
             return verifyPassword(master_key, M.salt, M.hashedMasterKey, PASSWORD_HASH_ITERATIONS);
     }
     return false;
@@ -76,6 +80,9 @@ void AuthManager::loadFromFile() {
 }
 
 void AuthManager::saveToFile() {
+    if(Masters.empty())
+        return;
+
     ensureDir("data");
     ensureDir("data/masters");
 
@@ -107,4 +114,18 @@ void AuthManager::saveToFile() {
         authFile << auth.dump(4);
         authFile.close();
     }
+}
+
+bool AuthManager::isLoggedIn() const {
+    return loggedIn;
+}
+
+std::string AuthManager::getCurrentMasterUsername() const {
+    return currentMasterUsername;
+}
+
+void AuthManager::logout() {
+    saveToFile();
+    currentMasterUsername.clear();
+    loggedIn = false;
 }

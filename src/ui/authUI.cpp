@@ -9,7 +9,7 @@ AuthUI::AuthUI(AuthManager& manager)
     : authManager(manager) {}
 
 
-void AuthUI::authManagerMenu() {
+AuthResult AuthUI::authManagerMenu() {
     while(true) {
         std::cout << std::endl;
         std::cout << "\t1. Sign Up." << std::endl;
@@ -18,7 +18,6 @@ void AuthUI::authManagerMenu() {
         std::cout << "Enter the Choice: ";
 
         int authManagerMenuChoice;
-
         std::cin >> authManagerMenuChoice;
 
         if(!std::cin || authManagerMenuChoice < 1 || authManagerMenuChoice > 3) {
@@ -27,17 +26,19 @@ void AuthUI::authManagerMenu() {
             continue;
         }
 
-        switch(authManagerMenuChoice) {
+        clearInput();
+
+        switch (authManagerMenuChoice) {
             case 1:
-                clearInput();
                 newMasterSignUp();
                 break;
             case 2:
-                clearInput();
-                oldMasterSignIn();
+                if (oldMasterSignIn()) {   // ← IMPORTANT
+                    return AuthResult::LOGIN_SUCCESS;
+                }
                 break;
             case 3:
-                return;
+                return AuthResult::EXIT;
         }
     }
 }
@@ -96,7 +97,7 @@ void AuthUI::newMasterSignUp() {
     std::cout << "Error creating new user. Returning to home page." << std::endl;
 }
 
-void AuthUI::oldMasterSignIn(){
+bool AuthUI::oldMasterSignIn(){
     std::string master_username, master_key;
     std::cout << "Enter username (case-insensitive): ";
     getline(std::cin, master_username);
@@ -104,7 +105,7 @@ void AuthUI::oldMasterSignIn(){
     if(!authManager.masterExists(toLower(master_username))) {
         std::cout << "Master with this username does not exist." << std::endl;
         std::cout << "Try signing up first. Returning to the main menu." << std::endl;
-        return;
+        return false;
     }
 
     while(true) {
@@ -113,13 +114,14 @@ void AuthUI::oldMasterSignIn(){
     
         if(toLower(master_key) == "quit") {
             std::cout << "Returning to the main menu." << std::endl;
-            return;
+            return false;
         }
 
         if(authManager.authenticateMaster(toLower(master_username), master_key)) {
-            break;
+            std::cout << "Signed In successfully." << std::endl;
+            return true;
         }
-    }
 
-    std::cout << "Signed In successfully." << std::endl;
+        std::cout << "Incorrect Master Key." << std::endl;
+    }
 }
