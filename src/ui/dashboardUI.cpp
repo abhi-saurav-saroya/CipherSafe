@@ -4,6 +4,7 @@
 #include "general_utils.h"
 
 #include <iostream>
+#include <string>
 
 DashboardUI::DashboardUI(AuthManager& authMgr, VaultManager& vaultMgr)
     : authManager(authMgr), vaultManager(vaultMgr) {}
@@ -12,7 +13,7 @@ void DashboardUI::dashboardMenu() {
     while(true) {
         std::cout << std::endl;
         std::cout << "\t1. Import and Encrypt new File." << std::endl;
-        std::cout << "\t2. Decrypt a File." << std::endl;
+        std::cout << "\t2. Decrypt a Locked File." << std::endl;
         std::cout << "\t3. List all Files." << std::endl;
         std::cout << "\t4. Delete a File." << std::endl;
         std::cout << "\t5. Recover a File." << std::endl;
