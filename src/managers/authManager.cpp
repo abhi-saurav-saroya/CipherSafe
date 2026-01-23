@@ -31,16 +31,21 @@ bool AuthManager::createMaster(const std::string& master_username, const std::st
     return true;
 }
 
-bool AuthManager::authenticateMaster(const std::string& master_username, const std::string& master_key){
+bool AuthManager::authenticateMaster(const std::string& master_username, const std::string& master_key) {
     for (const auto& M : Masters) {
-        if (toLower(M.masterUsername) == toLower(master_username))
-            loggedIn = true;
-            currentMasterUsername = M.masterUsername;
-
-            return verifyPassword(master_key, M.salt, M.hashedMasterKey, PASSWORD_HASH_ITERATIONS);
+        if (toLower(M.masterUsername) == toLower(master_username)) {
+            if (verifyPassword(master_key, M.salt,
+                               M.hashedMasterKey, PASSWORD_HASH_ITERATIONS)) {
+                loggedIn = true;
+                currentMasterUsername = M.masterUsername;
+                return true;
+            }
+            return false; // username matched, password wrong
+        }
     }
-    return false;
+    return false; // user not found
 }
+
 
 void AuthManager::loadFromFile() {
     Masters.clear();
