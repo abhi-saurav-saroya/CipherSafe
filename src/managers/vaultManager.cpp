@@ -1,6 +1,8 @@
 #include "vaultManager.h"
 #include "general_utils.h"
+#include "encryption.h"
 #include "json.hpp"
+
 using json = nlohmann::json;
 
 #include <fstream>
@@ -8,11 +10,9 @@ using json = nlohmann::json;
 #include <iomanip>
 #include <ctime>
 #include <filesystem>
-namespace fs = std::filesystem;
+#include <sstream>
 
-/* =========================================================
-   Constructor
-   ========================================================= */
+namespace fs = std::filesystem;
 
 VaultManager::VaultManager(const std::string& username, const std::string& rootPath)
     : masterUsername(username), vaultRootPath(rootPath)
@@ -24,17 +24,19 @@ VaultManager::VaultManager(const std::string& username, const std::string& rootP
     loadVaultIndex();
 }
 
-/* =========================================================
-   Utility helpers
-   ========================================================= */
+/* ---------- Utility helpers ---------- */
 
 std::string VaultManager::generateFileId() const {
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(static_cast<unsigned>(std::time(nullptr)));
+        seeded = true;
+    }
+
     static const char charset[] =
         "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     std::string id;
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
-
     for (int i = 0; i < 12; ++i)
         id += charset[std::rand() % (sizeof(charset) - 1)];
 
@@ -64,9 +66,7 @@ VaultFile* VaultManager::findFileByName(const std::string& name) {
     return nullptr;
 }
 
-/* =========================================================
-   Index handling
-   ========================================================= */
+/* ---------- Index handling ---------- */
 
 void VaultManager::loadVaultIndex() {
     files.clear();
@@ -125,13 +125,9 @@ void VaultManager::saveFileMetadata(const VaultFile& f) {
     out << meta.dump(4);
 }
 
-/* =========================================================
-   Core actions
-   ========================================================= */
+/* ---------- Core actions ---------- */
 
-bool VaultManager::importAndEncryptFile(const std::string& sourcePath,
-                                        const std::string& displayName)
-{
+bool VaultManager::importAndEncryptFile(const std::string& sourcePath, const std::string& displayName) {
     if (!fs::exists(sourcePath))
         return false;
 
@@ -144,10 +140,11 @@ bool VaultManager::importAndEncryptFile(const std::string& sourcePath,
     std::string destDir = vaultRootPath + "/objects/" + f.id;
     ensureDir(destDir);
 
-    /* -------- encryption placeholder (binary copy) -------- */
-    std::ifstream in(sourcePath, std::ios::binary);
-    std::ofstream out(destDir + "/data.enc", std::ios::binary);
-    out << in.rdbuf();
+    std::string encryptedPath = destDir + "/data.enc";
+
+    // 🔐 XOR encrypt directly using file paths
+    if (!xorEncryptFile(sourcePath, encryptedPath, masterUsername))
+        return false;
 
     saveFileMetadata(f);
     files.push_back(f);
@@ -156,24 +153,19 @@ bool VaultManager::importAndEncryptFile(const std::string& sourcePath,
     return true;
 }
 
-bool VaultManager::decryptFile(const std::string& fileId,
-                               const std::string& outputPath)
-{
+bool VaultManager::decryptFile(const std::string& fileId, const std::string& outputPath) {
     VaultFile* f = findFileById(fileId);
     if (!f || f->location != FileLocation::Objects)
         return false;
 
-    std::string src =
+    std::string encryptedPath =
         vaultRootPath + "/objects/" + f->id + "/data.enc";
 
-    if (!fs::exists(src))
+    if (!fs::exists(encryptedPath))
         return false;
 
-    std::ifstream in(src, std::ios::binary);
-    std::ofstream out(outputPath, std::ios::binary);
-    out << in.rdbuf();
-
-    return true;
+    // 🔓 XOR decrypt directly using file paths
+    return xorDecryptFile(encryptedPath, outputPath, masterUsername);
 }
 
 void VaultManager::listFiles() const {
@@ -238,9 +230,7 @@ bool VaultManager::purgeFile(const std::string& fileId) {
     return false;
 }
 
-/* =========================================================
-   Info
-   ========================================================= */
+/* ---------- Info ---------- */
 
 const std::string& VaultManager::getMasterUsername() const {
     return masterUsername;
