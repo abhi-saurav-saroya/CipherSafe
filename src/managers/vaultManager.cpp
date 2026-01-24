@@ -153,19 +153,38 @@ bool VaultManager::importAndEncryptFile(const std::string& sourcePath, const std
     return true;
 }
 
-bool VaultManager::decryptFile(const std::string& fileId, const std::string& outputPath) {
+bool VaultManager::decryptFile(const std::string& fileId,
+                               const std::string& outputPath)
+{
     VaultFile* f = findFileById(fileId);
     if (!f || f->location != FileLocation::Objects)
         return false;
 
-    std::string encryptedPath =
+    std::string src =
         vaultRootPath + "/objects/" + f->id + "/data.enc";
 
-    if (!fs::exists(encryptedPath))
+    if (!fs::exists(src))
         return false;
 
-    // 🔓 XOR decrypt directly using file paths
-    return xorDecryptFile(encryptedPath, outputPath, masterUsername);
+    fs::path outPath(outputPath);
+
+    bool treatAsDirectory =
+        fs::exists(outPath)
+            ? fs::is_directory(outPath)
+            : !outPath.has_extension();
+
+    std::string finalOutputPath;
+
+    if (treatAsDirectory) {
+        ensureDir(outPath.string());
+        finalOutputPath = (outPath / f->originalName).string();
+    } else {
+        finalOutputPath = outPath.string();
+        if (outPath.has_parent_path())
+            ensureDir(outPath.parent_path().string());
+    }
+
+    return xorDecryptFile(src, finalOutputPath, masterUsername);
 }
 
 void VaultManager::listFiles() const {
