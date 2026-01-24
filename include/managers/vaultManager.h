@@ -47,6 +47,7 @@ class VaultManager {
         bool importAndEncryptFile(const std::string& sourcePath, const std::string& displayName);
         bool decryptFile(const std::string& fileId, const std::string& outputPath);
         void listFiles() const;
+        void listDeletedFiles() const;
         bool deleteFile(const std::string& fileId);                 // soft delete
         bool recoverFile(const std::string& fileId);
         bool purgeFile(const std::string& fileId);                  // permanent delete
