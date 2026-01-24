@@ -140,15 +140,7 @@ The project focuses on **core backend concepts** such as authentication, encrypt
 
 ### Compile
 ```bash
-g++ src/main/*.cpp 
-    src/ui/*.cpp 
-    src/utils/*.cpp 
-    src/managers/*.cpp 
-    -Iinclude/utils/ 
-    -Iinclude/ui/ 
-    -Iinclude/libs/ 
-    -Iinclude/managers/ 
-    -o CipherSafe
+g++ src/main/*.cpp src/ui/*.cpp src/utils/*.cpp src/managers/*.cpp -Iinclude/utils/ -Iinclude/ui/ -Iinclude/libs/ -Iinclude/managers/ -o CipherSafe
 ```
 ### Run (cmd)
 ```bash
