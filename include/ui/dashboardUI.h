@@ -13,9 +13,7 @@ class DashboardUI {
         void listFiles();    
         void deleteFile(); 
         void recoverFile();  
-        void deletePermanent();  
-        void changeMasterKey();
-        void viewMasterProfile(); 
+        void deletePermanent();
 
     public:
         explicit DashboardUI(AuthManager& authMgr, VaultManager& vaultMgr);

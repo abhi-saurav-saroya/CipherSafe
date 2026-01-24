@@ -108,10 +108,13 @@ void DashboardUI::deleteFile() {
 }
 
 void DashboardUI::recoverFile() {
+    std::cout << "\nRecoverable files:\n";
+    vaultManager.listDeletedFiles();
+
     clearInput();
 
     std::string fileId;
-    std::cout << "Enter file name or ID to recover: ";
+    std::cout << "\nEnter file ID to recover: ";
     std::getline(std::cin, fileId);
 
     if (vaultManager.recoverFile(fileId))

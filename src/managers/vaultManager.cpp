@@ -190,18 +190,45 @@ bool VaultManager::decryptFile(const std::string& fileId,
 }
 
 void VaultManager::listFiles() const {
-    if (files.empty()) {
-        std::cout << "Vault is empty.\n";
-        return;
-    }
+    bool found = false;
 
     for (const auto& f : files) {
+        if (f.location != FileLocation::Objects)
+            continue;
+
+        if (!found) {
+            std::cout << "Stored files:\n";
+            found = true;
+        }
+
         std::cout << "- ID: " << f.id
                   << " | Name: " << f.originalName
-                  << " | Stored: "
-                  << (f.location == FileLocation::Objects ? "objects" : "temp")
                   << "\n";
     }
+
+    if (!found)
+        std::cout << "Vault is empty.\n";
+}
+
+void VaultManager::listDeletedFiles() const {
+    bool found = false;
+
+    for (const auto& f : files) {
+        if (f.location != FileLocation::Temp)
+            continue;
+
+        if (!found) {
+            std::cout << "Deleted files:\n";
+            found = true;
+        }
+
+        std::cout << "- ID: " << f.id
+                  << " | Name: " << f.originalName
+                  << "\n";
+    }
+
+    if (!found)
+        std::cout << "No deleted files to recover.\n";
 }
 
 bool VaultManager::deleteFile(const std::string& fileId) {
