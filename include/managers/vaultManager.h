@@ -50,7 +50,6 @@ class VaultManager {
         void listDeletedFiles() const;
         bool deleteFile(const std::string& fileId);                 // soft delete
         bool recoverFile(const std::string& fileId);
-        bool purgeFile(const std::string& fileId);                  // permanent delete
 
         // ---------- Info ----------
         const std::string& getMasterUsername() const;

@@ -17,8 +17,7 @@ void DashboardUI::dashboardMenu() {
         std::cout << "\t3. List all Files." << std::endl;
         std::cout << "\t4. Delete a File." << std::endl;
         std::cout << "\t5. Recover a File." << std::endl;
-        std::cout << "\t6. Delete a File Permanently." << std::endl;
-        std::cout << "\t7. Log Out." << std::endl;
+        std::cout << "\t6. Log Out." << std::endl;
         std::cout << "Enter the Choice: ";
 
         int dashboardChoice;
@@ -48,9 +47,6 @@ void DashboardUI::dashboardMenu() {
                 recoverFile();
                 break;
             case 6:
-                deletePermanent();
-                break;
-            case 7:
                 std::cout << "Logging out...\n";
                 return;
         }
@@ -121,26 +117,4 @@ void DashboardUI::recoverFile() {
         std::cout << "File recovered successfully.\n";
     else
         std::cout << "Recovery failed.\n";
-}
-
-void DashboardUI::deletePermanent() {
-    clearInput();
-
-    std::string fileId;
-    std::cout << "Enter file ID to permanently delete: ";
-    std::getline(std::cin, fileId);
-
-    char confirm;
-    std::cout << "This cannot be undone. Confirm (y): ";
-    std::cin >> confirm;
-    clearInput();
-
-    if (confirm == 'y' || confirm == 'Y') {
-        if (vaultManager.purgeFile(fileId))
-            std::cout << "File permanently removed.\n";
-        else
-            std::cout << "Purge failed.\n";
-    } else {
-        std::cout << "Cancelled.\n";
-    }
 }

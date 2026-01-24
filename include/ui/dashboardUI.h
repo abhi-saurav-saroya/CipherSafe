@@ -13,7 +13,6 @@ class DashboardUI {
         void listFiles();    
         void deleteFile(); 
         void recoverFile();  
-        void deletePermanent();
 
     public:
         explicit DashboardUI(AuthManager& authMgr, VaultManager& vaultMgr);

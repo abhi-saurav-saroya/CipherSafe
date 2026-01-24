@@ -261,23 +261,6 @@ bool VaultManager::recoverFile(const std::string& fileId) {
     return true;
 }
 
-bool VaultManager::purgeFile(const std::string& fileId) {
-    for (auto it = files.begin(); it != files.end(); ++it) {
-        if (it->id == fileId) {
-            std::string dir =
-                vaultRootPath +
-                (it->location == FileLocation::Objects ? "/objects/" : "/temp/") +
-                it->id;
-
-            fs::remove_all(dir);
-            files.erase(it);
-            saveVaultIndex();
-            return true;
-        }
-    }
-    return false;
-}
-
 /* ---------- Info ---------- */
 
 const std::string& VaultManager::getMasterUsername() const {
