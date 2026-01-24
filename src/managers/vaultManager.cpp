@@ -131,9 +131,12 @@ bool VaultManager::importAndEncryptFile(const std::string& sourcePath, const std
     if (!fs::exists(sourcePath))
         return false;
 
+    fs::path srcPath(sourcePath);
+    std::string extension = srcPath.extension().string();
+
     VaultFile f;
     f.id = generateFileId();
-    f.originalName = displayName;
+    f.originalName = displayName + extension;
     f.createdAt = currentTimestamp();
     f.location = FileLocation::Objects;
 
@@ -142,7 +145,6 @@ bool VaultManager::importAndEncryptFile(const std::string& sourcePath, const std
 
     std::string encryptedPath = destDir + "/data.enc";
 
-    // 🔐 XOR encrypt directly using file paths
     if (!xorEncryptFile(sourcePath, encryptedPath, masterUsername))
         return false;
 
