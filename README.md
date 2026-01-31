@@ -1,9 +1,12 @@
 <h1 align="center">
   <img 
-    src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=ffffff&center=true&vCenter=true&width=650&lines=CipherSafe - Secure File Locker"
-    alt="First Come First Serve (FCFS) CPU Scheduling"
+    src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=ffffff&center=true&vCenter=true&width=650&lines=CipherSafe+-+Secure+File+Locker"
+    alt="CipherSafe - Secure File Locker"
   />
 </h1>
+<p align = "center"><i>Because your secrets deserve CipherSafe.</i></p>
+
+---
 
 CipherSafe is a **console-based secure file vault application** built in **C++**, designed to simulate how encrypted file storage systems work internally.  
 The project focuses on **core backend concepts** such as authentication, encryption, file system design, metadata management, and clean architecture — without relying on any GUI frameworks.
