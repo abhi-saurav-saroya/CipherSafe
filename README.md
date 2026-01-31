@@ -1,10 +1,31 @@
-# **CipherSafe** - Secure File Locker (C++)
+<h1 align="center">
+  <img 
+    src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=ffffff&center=true&vCenter=true&width=650&lines=CipherSafe - Secure File Locker"
+    alt="First Come First Serve (FCFS) CPU Scheduling"
+  />
+</h1>
 
 CipherSafe is a **console-based secure file vault application** built in **C++**, designed to simulate how encrypted file storage systems work internally.  
 The project focuses on **core backend concepts** such as authentication, encryption, file system design, metadata management, and clean architecture — without relying on any GUI frameworks.
 
 > Note: This project is built for **learning and demonstration purposes**. Encryption used is XOR-based and **not intended for production security**.
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++"/>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Hashing-SHA256-0ea5e9?style=for-the-badge" alt="SHA256"/>
+  <img src="https://img.shields.io/badge/Encryption-XOR_Based-22c55e?style=for-the-badge" alt="XOR"/>
+  <img src="https://img.shields.io/badge/Domain-Cryptography-f97316?style=for-the-badge" alt="Cryptography"/>
+</p>
+<p align="center">
+  <a href="https://github.com/nlohmann/json" target="_blank">
+    <img src="https://img.shields.io/badge/Library-nlohmann%2Fjson-1f2937?style=for-the-badge&logo=github&logoColor=white" alt="nlohmann/json"/>
+  </a>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge" alt="License"/>
+</p>
 
 ## Features
 
@@ -68,6 +89,13 @@ The project focuses on **core backend concepts** such as authentication, encrypt
         - File metadata
 
 3. ### Header-only JSON library.
+
+## Acknowledgements
+
+- **nlohmann/json** — Header-only JSON library for C++  
+  Created by **Niels Lohmann**  
+  Used for structured and persistent data storage (`auth.json`, vault index, metadata).  
+  GitHub: https://github.com/nlohmann/json
 
 
 ## Data Structures Used
@@ -150,3 +178,14 @@ CipherSafe.exe
 ```bash
 .\CipherSafe
 ```
+---
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" alt="Footer"/>
+
+<i>Built for fun, engineered for learning, encrypted for practice. 💾</i>
+<i>Because your secrets deserve CipherSafe. 🛡️</i>
+
+---
+
+**© 2026 Open Source Project | CipherSafe - Secure File Locker | MIT License**
