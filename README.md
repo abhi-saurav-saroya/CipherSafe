@@ -63,6 +63,7 @@ The project focuses on **core backend concepts** such as authentication, encrypt
 </p>
 
 ## Tech Stack
+<div align = "center">
 
 | Component | Technology |
 |---------|------------|
@@ -71,9 +72,10 @@ The project focuses on **core backend concepts** such as authentication, encrypt
 | Storage | File System + JSON |
 | Encryption | XOR-based (custom) |
 | Libraries | STL, `<filesystem>`, `nlohmann/json` |
-
+</div>
 
 ## Libraries Used
+
 
 1. ### STL (Standard Template Library)
     - `std::vector`
@@ -100,13 +102,16 @@ The project focuses on **core backend concepts** such as authentication, encrypt
 
 ## Data Structures Used
 
+
+<div align = "center">
+
 | Structure | Purpose |
 |------------|-----------|
 | `vector<VaultFile>` | Tracks all vault files |
 | `struct VaultFile` | Stores file metadata |
 | `enum class FileLocation` | Objects vs Temp |
 | JSON Arrays | Persistent indexing |
-
+</div>
 
 ## System Design Overview
 
